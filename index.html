@@ -1,57 +1,51 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
+    <!--[if lt IE 9]>  <html class="ie lt-ie9 ie8"> <![endif]-->
+    <!--[if IE 9]>     <html class="ie ie9"> <![endif]-->
+    <!--[if !IE]><!-->
+    <!--<![endif]-->
     <meta charset="utf-8">
-
-    <title>Kentucky Adventure Tour</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Esri Javascript Starter App</title>
     <style>
+        html,
         body,
-        #map {
-            position: absolute;
-            width: 100%;
-            top: 0;
-            bottom: 0;
-            margin: 0;
+        #viewDiv {
             padding: 0;
-            background: rgba(0,0,0,.75);
+            margin: 0;
+            height: 100%;
+            width: 100%;
         }
     </style>
+    <!-- <link rel="shortcut icon" href="/img/favicon.ico"> -->
+    <!-- get calcite-web css from the cdn (use latest version) -->
+    <link rel="stylesheet"
+        href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
 </head>
 
 <body>
+    <div class="wrapper">
+        <!-- header -->
+        <!-- content of page -->
+    </div>
 
-    <div id="map"></div>
+    
+    <div class="footer" role="contentinfo">
+        <!-- content of footer -->
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
+    <!-- get calcite-web js from the cdn (use latest version) -->
+    <script
+        src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <!-- interactive patterns need to be initialized -->
     <script>
-        var options = {
-            center: [36.726, -84.365],
-            zoom: 9,
-            minZoom: 9,
-            maxZoom: 16,
-            maxBounds: [
-                [33.911, -84.032],
-                [33.620, -84.772]
-            ]
-        };
-        var options = {
-    center: [37.8,-84],
-    zoom: 6
-};
-var map = L.map('map', options);
-
-L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-}).addTo(map);
-
+        calcite.init()
     </script>
+
 </body>
 
 </html>
