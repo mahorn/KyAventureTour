@@ -1,60 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
-    />
-    <title>Load a basic WebMap - 4.14</title>
+<!doctype html>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+    <title>Leaflet Map with a Basemap</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <!-- lets load Leaflet's .js and .css from CDN-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN.  it has no .css stylesheet of its own, only .js -->
+    <script src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"
+        integrity="sha512-cMQ5e58BDuu1pr9BQ/eGRn6HaR6Olh0ofcHFWe5XesdCITVuSBiBZZbhCijBe5ya238f/zMMRYIMIIg1jxv4sQ=="
+        crossorigin=""></script>
     <style>
-      html,
-      body,
-      #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
-      }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100vw;
+        }
     </style>
+</head>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
-    />
+<body>
+    <div id="map"></div>
 
-    <script src="https://js.arcgis.com/4.14/"></script>
-
+    <!-- construct the map -->
     <script>
-      require(["esri/views/MapView", "esri/WebMap"], function(MapView, WebMap) {
-        /************************************************************
-         * Creates a new WebMap instance. A WebMap must reference
-         * a PortalItem ID that represents a WebMap saved to
-         * arcgis.com or an on-premise portal.
-         *
-         * To load a WebMap from an on-premise portal, set the portal
-         * url with esriConfig.portalUrl.
-         ************************************************************/
-        var webmap = new WebMap({
-          portalItem: {
-            // autocasts as new PortalItem()
-            id: "8f250ef9c64c450585e66debc73ee021"
-          }
-        });
+        var map = L.map('map').fitWorld();
 
-        /************************************************************
-         * Set the WebMap instance to the map property in a MapView.
-         ************************************************************/
-        var view = new MapView({
-          map: webmap,
-          container: "viewDiv"
-        });
-      });
+        // load a basemap
+        L.esri.basemapLayer('Streets').addTo(map);
+
+        map.locate({ setView: true, maxZoom: 16 });
+        L.esri.dynamicMapLayer({
+            url: 'http://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_BucketList_WGS84WM/MapServer'
+        }).addTo(map);
+
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on('locationfound', onLocationFound);
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationerror', onLocationError);
+
     </script>
-  </head>
+</body>
 
-  <body>
-    <div id="viewDiv"></div>
-  </body>
 </html>
